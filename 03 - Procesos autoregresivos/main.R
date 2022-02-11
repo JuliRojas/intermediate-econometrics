@@ -159,6 +159,10 @@ plot(yt1s,
 abline(h = mu, col = 'grey', lty = 2) # Línea punteada que representa la media.
 
 # Análisis de la función de autocorrelación y autocorrelación parcial.
+# - En un AR(1) el coeficiente de correlación sigue rho_s = a_1^s.
+# - Por el contrario, la autocorrelación parcial es 0 para todo s > 1.
+# - En la PACF se encuentra las primeras p (del AR(p)) diferentes de cero.
+# - ¿Qué sucedería si el coeficiente asociado fuese negativo?
 par(mfrow = c(1, 2))
 acf(yt1s,
     lag.max = nLag, 

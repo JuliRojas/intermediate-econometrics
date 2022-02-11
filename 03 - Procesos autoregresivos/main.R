@@ -184,6 +184,16 @@ pacf(yt1s,
      ylab    = 'Coeficiente de autocorrelación parcial')
 par(mfrow = c(1, 1))
 
+# C| Raíces del proceso ---------------------------------------------------
+# El proceso es estacionario si la raíz descansa por fuera del círculo unitario.
+ar1 <- arima(yt1s, 
+             order          = c(1, 0, 0), 
+             include.mean   = FALSE, 
+             transform.pars = FALSE,
+             method         = 'ML')
+polyroot(c(1, -ar1$coef))
+Mod(polyroot(c(1, -ar1$coef)))
+
 # 2.3| Proceso no-estacionario --------------------------------------------
 # A| Serie cruda ----------------------------------------------------------
 yt1n <- ts(data      = arima.sim(model = list(order = c(1,1,0),

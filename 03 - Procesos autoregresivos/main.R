@@ -272,10 +272,3 @@ pacf(diffyt1n,
      xlab    = 'Número de rezagos',
      ylab    = 'Coeficiente de autocorrelación parcial')
 par(mfrow = c(1, 1))
-
-# 3| Quiz -----------------------------------------------------------------
-# ¿Cómo introduciría una tendencia determinística en una serie simulada?
-
-
-# ¿Cómo simularía un proceso autorregresivo de segundo orden? Suponga
-# coeficientes de 0.3 y 0.2 para los rezagos de orden uno y dos, respectivamente.

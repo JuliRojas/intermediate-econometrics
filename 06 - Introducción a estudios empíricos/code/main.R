@@ -43,10 +43,11 @@ nLag  <- 20   # Número de rezagos para validar la ACP y PACF.
 # 1.3| Bases de datos -----------------------------------------------------
 # Se carga, en primer instancia, como un data frame pero, posteriormente,
 # se convierte en una serie de tiempo con frecuencia mensual.
-IPP <- readxl::read_xls(path  = paste0(directorioDatosCrudos, 
-                                       'IPP a Febrero de 2022.xls'), 
-                        sheet = 'IPP Histórico', 
-                        range = 'C6:C278')
+IPP <- readxl::read_xls(path      = paste0(directorioDatosCrudos, 
+                                           'IPP a Febrero de 2022.xls'), 
+                        sheet     = 'IPP Histórico', 
+                        range     = 'C6:C278',
+                        col_names = FALSE)
 IPPin  <- IPP[seq_len(224), 1, drop = TRUE]
 IPPout <- IPP[224:length(IPP), 1, drop = TRUE]
 IPP <- ts(data = IPPin, start = c(1999, 6), frequency = 12)
@@ -101,7 +102,10 @@ simulationDF <- function(n, N, type, drift){
                       n     = n - 1, 
                       innov = rnorm(n, mean = 0, sd =1)) + 
         drift
-      
+      # 2. Se obtiene el estadístico t de Dickey-Fuller asociado a la anterior 
+      #    simulación. Para la regresión, se usa el comando 'dynlm', que es 
+      #    un comando que permite estimar modelos vía mínimos cuadrados 
+      #    ordinarios dinámicos.
       summa <- summary(dynlm(diff(yt, 1) ~ L(yt, 1))) 
       sim_df[i,] = c(summa$coef[2,1], summa$coef[2,3])
     }
@@ -114,6 +118,10 @@ simulationDF <- function(n, N, type, drift){
       yt <- arima.sim(model = list(order = c(0,1,0)), 
                       n     = n - 1, 
                       innov = rnorm(n, mean = 0, sd =1))
+      # 2. Se obtiene el estadístico t de Dickey-Fuller asociado a la anterior 
+      #    simulación. Para la regresión, se usa el comando 'dynlm', que es 
+      #    un comando que permite estimar modelos vía mínimos cuadrados 
+      #    ordinarios dinámicos.
       summa <- summary(dynlm(diff(yt, 1) ~ L(yt, 1) - 1)) 
       sim_df[i,] = c(summa$coef[1,1], summa$coef[1,3])
     }
